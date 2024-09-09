@@ -3,7 +3,6 @@ package com.example.e_commerce.api.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 @Entity

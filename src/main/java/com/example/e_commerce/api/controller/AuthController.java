@@ -42,32 +42,32 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/api/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) throws Exception {
-        try {
-            Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
-
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(existingUser.get().getName(), authRequest.getPassword())
-            );
-
-            System.out.println(authentication);
-
-//            final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
-//            final User user = (User) userDetails;
+//    @PostMapping("/api/login")
+//    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) throws Exception {
+//        try {
+//            Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
 //
-//            final String jwt = jwtUtil.generateToken(user.getId());
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(existingUser.get().getName(), authRequest.getPassword())
+//            );
 //
-//            return ResponseEntity.ok(new AuthResponse(jwt));
-
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String jwt = jwtUtil.generateToken(userDetails.getUsername());
-
-            return ResponseEntity.ok(new ApiResponse(200, "login success", jwt));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect email or password", e);
-        }
-    }
+//            System.out.println(authentication);
+//
+////            final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+////            final User user = (User) userDetails;
+////
+////            final String jwt = jwtUtil.generateToken(user.getId());
+////
+////            return ResponseEntity.ok(new AuthResponse(jwt));
+//
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            String jwt = jwtUtil.generateToken(userDetails.getUsername());
+//
+//            return ResponseEntity.ok(new ApiResponse(200, "login success", jwt));
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("Incorrect email or password", e);
+//        }
+//    }
 
     @PostMapping("/api/register")
     public ApiResponse register(@RequestBody RegisterRequest registerRequest) {
