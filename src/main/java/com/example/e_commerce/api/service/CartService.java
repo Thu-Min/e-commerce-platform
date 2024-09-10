@@ -6,6 +6,7 @@ import com.example.e_commerce.api.model.User;
 import com.example.e_commerce.api.repository.CartRepository;
 import com.example.e_commerce.api.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,14 +25,28 @@ public class CartService {
     }
 
     public Cart addToCart(Long productId, User user, Integer quantity) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Cart cartItem = new Cart();
-        cartItem.setProduct(product);
-        cartItem.setUser(user);
-        cartItem.setQuantity(quantity);
+        // Check if the cart item already exists
+        Cart existingCartItem = cartRepository.findByProductAndUser(product, user);
+        if (existingCartItem != null) {
+            // Update quantity if the item already exists
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
+            return cartRepository.save(existingCartItem);
+        }
 
-        return cartRepository.save(cartItem);
+        // Create a new cart item if it does not exist
+        Cart newCartItem = new Cart();
+        newCartItem.setProduct(product);
+        newCartItem.setUser(user);
+        newCartItem.setQuantity(quantity);
+
+        try {
+            return cartRepository.save(newCartItem);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Error saving cart item: " + e.getMessage());
+        }
     }
 
     public void removeCartItem(Long cartId) {

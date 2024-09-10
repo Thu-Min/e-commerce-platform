@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "carts")
+@Table(name = "carts", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"userId", "productId"})
+})
 
 public class Cart {
     @Id
