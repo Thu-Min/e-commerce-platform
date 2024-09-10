@@ -38,6 +38,7 @@ public class CartController {
     @DeleteMapping("/{cartId}")
     public ApiResponse removeCartItem(@PathVariable Long cartId) {
         cartService.removeCartItem(cartId);
+        
         return new ApiResponse(200, "cart item deleted successfully", null);
     }
 }

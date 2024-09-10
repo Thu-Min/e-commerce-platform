@@ -1,6 +1,7 @@
 package com.example.e_commerce.api.service;
 
 import com.example.e_commerce.api.model.Cart;
+import com.example.e_commerce.api.model.Category;
 import com.example.e_commerce.api.model.Product;
 import com.example.e_commerce.api.model.User;
 import com.example.e_commerce.api.repository.CartRepository;
@@ -19,6 +20,10 @@ public class CartService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    public Cart getCartById(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new RuntimeException("Cart not found"));
+    }
 
     public List<Cart> getCartItems(User user) {
         return cartRepository.findByUser(user);
@@ -49,8 +54,10 @@ public class CartService {
         }
     }
 
-    public void removeCartItem(Long cartId) {
-        cartRepository.deleteById(cartId);
+    public void removeCartItem(Long id) {
+        Cart cart = getCartById(id);
+
+        cartRepository.delete(cart);
     }
 
     public void clearCart(User user) {
