@@ -4,6 +4,7 @@ import com.example.e_commerce.api.model.Cart;
 import com.example.e_commerce.api.model.Order;
 import com.example.e_commerce.api.model.OrderItem;
 import com.example.e_commerce.api.model.User;
+import com.example.e_commerce.api.repository.OrderItemRepository;
 import com.example.e_commerce.api.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private CartService cartService;
@@ -42,6 +46,8 @@ public class OrderService {
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setPrice(cartItem.getProduct().getPrice());
             orderItem.setOrder(order);
+
+            orderItemRepository.save(orderItem);
         }
 
         cartService.clearCart(user);
