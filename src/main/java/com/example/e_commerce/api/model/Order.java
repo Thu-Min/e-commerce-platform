@@ -3,6 +3,7 @@ package com.example.e_commerce.api.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Order {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Date orderedDate;
+    private LocalDate orderedDate;
 
     @Column(nullable = false)
     private String status;
@@ -57,11 +58,11 @@ public class Order {
         this.user = user;
     }
 
-    public Date getOrderedDate() {
+    public LocalDate getOrderedDate() {
         return orderedDate;
     }
 
-    public void setOrderedDate(Date orderedDate) {
+    public void setOrderedDate(LocalDate orderedDate) {
         this.orderedDate = orderedDate;
     }
 
