@@ -1,13 +1,11 @@
 package com.example.e_commerce.api.controller;
 
 import com.example.e_commerce.api.dto.AuthRequest;
-import com.example.e_commerce.api.dto.AuthResponse;
 import com.example.e_commerce.api.dto.RegisterRequest;
 import com.example.e_commerce.api.repository.UserRepository;
 import com.example.e_commerce.util.ApiResponse;
 import com.example.e_commerce.util.JwtUtil;
 import com.example.e_commerce.api.model.User;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
