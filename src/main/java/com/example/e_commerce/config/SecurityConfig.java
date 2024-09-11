@@ -48,12 +48,43 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and()
+                .csrf()
+                .disable()
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/login", "/api/register").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/api/login",
+                                "/api/register"
+                        ).permitAll()
                         .anyRequest()
                         .authenticated()
                 )
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers(
+//                                "/v3/api-docs",
+//                                "/v3/api-docs/**",
+//                                "/swagger-resources",
+//                                "/swagger-resources/**",
+//                                "/swagger-ui/**",
+//                                "/swagger-ui.html",
+//                                "/webjars/**"
+//                        ).permitAll()
+//                        .requestMatchers(
+//                                "/api/login",
+//                                "/api/register"
+//                        ).permitAll()
+//                        .anyRequest()
+//                        .authenticated()
+//                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
